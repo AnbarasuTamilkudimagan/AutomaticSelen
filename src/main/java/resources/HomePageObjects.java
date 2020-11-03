@@ -13,25 +13,27 @@ public class HomePageObjects
 	{
 		this.driver= driver;
 	}
+	
 	@FindBy (xpath="//input[@id='email']") WebElement emailname;
 	@FindBy (xpath="//input[@id='pass']") WebElement password;
 	@FindBy (id="send2") WebElement submit;
+	
 	@FindBy (xpath="//p[@class='welcome-msg']") WebElement welcomem;
 	
-	public void login_demo(String ename, String pword)
+	public String login_demo(String ename, String pword)
 	{
 		emailname.sendKeys(ename);
 		password.sendKeys(pword);
 		submit.click();	
+		String Pagetitle=driver.getTitle();
+		return Pagetitle;
 		
 	}
 	
 	public void dashboard()
 	{
-		System.out.println("Kishore --Enetred Dashboard");
-		String text =welcomem.getText();
-		System.out.println("got welcome message"+text);
-		if (text.contentEquals("WELCOME, ANBARASU T T!"))
+		String text1 =welcomem.getText();
+		if (text1.contentEquals("WELCOME, ANBARASU T T!"))
 			{
 				Assert.assertTrue(true);
 				System.out.println("SUCCESS MAIN PAGE");

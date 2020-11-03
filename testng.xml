@@ -3,10 +3,8 @@
 <suite name="Suite">
   <test thread-count="5" name="Test">
     <classes>
-      <class name="Regression.ATest"/>
       <class name="Regression.LoginTest"/>
       <class name="Sanity.CTest"/>
-      <class name="Regression.BTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
