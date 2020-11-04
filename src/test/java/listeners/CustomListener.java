@@ -14,48 +14,66 @@ import com.aventstack.extentreports.Status;
 import resources.CommonBrowser;
 import resources.Extendreportgen;
 
+
 public class CustomListener extends CommonBrowser implements ITestListener
 
-{
-
+{		
+	ExtentReports ex=Extendreportgen.getObject(); //gettign from Extend report class and Method
 	ExtentTest test;
-	ExtentReports extentRe = Extendreportgen.getReportObject();
+	ThreadLocal<ExtentTest> extentTest=new ThreadLocal<ExtentTest>();
 	
-
-	public void onTestStart(ITestResult result) 
+	public void onTestStart(ITestResult result)
 	{
-		String text = result.getMethod().getMethodName();
-		System.out.println("Test Success");
-		test= extentRe.createTest(text);
+		test=ex.createTest(result.getMethod().getMethodName());
+		extentTest.set(test);
 	}
 
-	public void onTestSuccess(ITestResult result) 
-	{
+	public void onTestSuccess(ITestResult result) {
+
+		extentTest.get().log(Status.PASS,"Test Passes");
 		
-		test.log(Status.PASS, "TEST DESfasfdgf");
+		
 	}
-
 
 	public void onTestFailure(ITestResult result) 
 	{
-		System.out.println("Test Failure and Capture Screenshot");
-		test.fail(result.getThrowable());
+		extentTest.get().fail(result.getThrowable());
+		WebDriver driver=null;
+		String testMethodName =result.getMethod().getMethodName();
+		try 
+		{
+			driver =(WebDriver)result.getTestClass().getRealClass().getDeclaredField("driver").get(result.getInstance());
+		}		
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		} 		
 		
-		WebDriver driver = null;
-		String testcasename = result.getMethod().getMethodName();
-		
-		getScreenShotFailed (result.getMethod().getMethodName());
-		//getScreenShotPath(testcasename, driver);
-		
+try {
+	extentTest.get().addScreenCaptureFromPath(takeScreenShotOnTestFailure(testMethodName,driver), result.getMethod().getMethodName());
+	
+			//takeScreenShotOnTestFailure(testFailingMethodName,driver);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
-	
-
-	public void onFinish(ITestContext context) 
-	{
-		extentRe.flush();
+	public void onTestSkipped(ITestResult result) {
 	}
 
-	
-	
+	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+	}
+
+	public void onTestFailedWithTimeout(ITestResult result) {
+	}
+
+	public void onStart(ITestContext context) {
+	}
+
+	public void onFinish(ITestContext context) {
+		ex.flush();
+	}
+
 }

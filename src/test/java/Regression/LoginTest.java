@@ -16,6 +16,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -45,36 +46,19 @@ public class LoginTest extends CommonBrowser
 		Properties properties = propfile();
 	}
 	
+	
 	@Test(priority=1)
 	void LoginTestcase() throws IOException
 	{
+		
+		HomePageMethod();
 		HomePageObjects home=PageFactory.initElements(driver, HomePageObjects.class);
 		
-		String emailvalue = properties.getProperty("emailp");
-		String pwdvalue = properties.getProperty("pwdp");
-		String PageTitle=home.login_demo(emailvalue	, pwdvalue); //using COnstants */
-		
-		if (PageTitle.equalsIgnoreCase("My Account"))
-		{
-			Assert.assertEquals(PageTitle, "My Account");
-			System.out.println("Success, & Verified Page title after login is --"+PageTitle);
-		}
-		else
-		{
-			Assert.assertEquals(PageTitle, "My Account");
-			System.out.println("FAILURE, & Page title after login is --"+PageTitle);
-		}
 		home.dashboard();
 		
-		
 		//Seocnd verification
-		
-		MobileMenuPageObjects MobileMenuL=PageFactory.initElements(driver, MobileMenuPageObjects.class);
-		String MobilePageName=MobileMenuL.MobileMenu();
-		System.out.println("Mobile Page name is "+MobilePageName);
-		Assert.assertEquals(MobilePageName, "Mobile");
-		//Completion of Second verification
-		
+		MobilePageMethod();
+
 		List<WebElement> hrefList =driver.findElements(By.xpath("//li[@class='item last']/div/h2/a"));
 		
 		System.out.println("Before Sorted the Products");
@@ -100,17 +84,42 @@ public class LoginTest extends CommonBrowser
 		System.out.println("---------------------------------");
 	}
 	
+	//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	
-	@Test(priority=2)
-	void SecondTest() throws IOException
-	{
-		System.out.println("Seocnd TEst");
-	}
-	
-	@Test(priority=3)
-	void ThirdTest() throws IOException
-	{
-		System.out.println("Third TEst");
-	}
+	  @Test(priority=2) 
+	  void CompareCostofTwoProduc1t() throws IOException 
+	  {
+	  
+		  HomePageMethod(); 
+		  System.out.println("Success Home page Method");
+		  HomePageObjects home=PageFactory.initElements(driver, HomePageObjects.class); 
+		  home.dashboard();
+		  MobilePageMethod();
+		  
+		  String ProductValueinMenuPage = ProductPageMethod(); 
+		  String ProductValueinDetailPageVAlue = ProductDetailsPage(); 
+		  
+		  if (ProductValueinMenuPage.contentEquals(ProductValueinDetailPageVAlue)) 
+			  {
+				  System.out.println("Value present in Details page is EQUAL"); 
+			  } 
+		  else 
+			  {
+				  System.out.println("Value present in Details page is NOT EQUAL"); 
+			  } 
+	  }
+	  
+	  
+	  
+	  @Test(priority=3) void ThirdTest() throws IOException 
+	  {
+		  System.out.println("Third TEst"); 
+	  }
+	  
+	  @AfterTest public void closeDriver() 
+	  { 
+		  driver.close(); 
+	  }
+	 
 	
 }

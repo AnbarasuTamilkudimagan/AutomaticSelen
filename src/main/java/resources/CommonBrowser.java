@@ -12,6 +12,8 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 public class CommonBrowser 
 {
@@ -56,18 +58,70 @@ public class CommonBrowser
 		return properties;
 	}
 	
-	public void getScreenShotFailed(String testMethodName) 
+	//public String getScreenShotFailed(String testMethodName) 
+	public String takeScreenShotOnTestFailure(String testCaseName,WebDriver driver) throws IOException
 	{
 		File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-		try {
-			FileUtils.copyFile(scrFile, new File("://Users//Anbarasu T//SELENIUM_ANBU//MavenExamples//screenshots"+testMethodName+"_"+".jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
+		//try {
+			String destination=System.getProperty("user.dir")+"//screenshots//"+testCaseName+".jpg";
+			FileUtils.copyFile(scrFile, new File(destination));
+			return destination;
+		//} catch (IOException e) {
+		//	e.printStackTrace();
 		
+		//}
+		
+	}
+	
+	
+	public void HomePageMethod()
+	{
+		HomePageObjects home=PageFactory.initElements(driver, HomePageObjects.class);
+		
+		String emailvalue = properties.getProperty("emailp");
+		String pwdvalue = properties.getProperty("pwdp");
+		String PageTitle=home.login_demo(emailvalue	, pwdvalue); //using COnstants */
+		
+		if (PageTitle.equalsIgnoreCase("My Account"))
+		{
+			Assert.assertEquals(PageTitle, "My Account");
+			System.out.println("Success, & Verified Page title after login is --"+PageTitle);
+		}
+		else
+		{
+			Assert.assertEquals(PageTitle, "My Account");
+			System.out.println("FAILURE, & Page title after login is --"+PageTitle);
 		}
 	}
 	
+	public void MobilePageMethod()
+	{
+		MobileMenuPageObjects MobileMenuL=PageFactory.initElements(driver, MobileMenuPageObjects.class);
+		String MobilePageName=MobileMenuL.MobileMenu();
+		System.out.println("Mobile Page name is "+MobilePageName);
+		Assert.assertEquals(MobilePageName, "Mobile");
 
+	}
+	
+	public String ProductPageMethod()
+	{
+		MobileMenuPageObjects MobileMenuL=PageFactory.initElements(driver, MobileMenuPageObjects.class);
+		String ProductValue=MobileMenuL.MobilePriceMethod();
+		System.out.println("First Product Price is  "+ProductValue);
+		//Assert.assertEquals(ProductValue, "Mobile");
+		return ProductValue;
+
+	}
+	
+	public String ProductDetailsPage()
+	{
+		MobileMenuPageObjects MobileMenuL=PageFactory.initElements(driver, MobileMenuPageObjects.class);
+		String ProductValueinDetailsPage=MobileMenuL.ProductDetailMethod();
+		System.out.println("Product price in Details page "+ProductValueinDetailsPage);
+		//Assert.assertEquals(ProductValueinDetailsPage, "Mobile");
+		return ProductValueinDetailsPage;
+	}
+	
 	/*Set<String> ids = driver.getWindowHandles();
 	Iterator<String> it = ids.iterator();
 	String parentwindow = it.next();
