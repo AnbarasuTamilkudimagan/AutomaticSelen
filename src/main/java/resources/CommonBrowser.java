@@ -76,10 +76,14 @@ public class CommonBrowser
 	
 	public void HomePageMethod()
 	{
+		
+		//System.out.println("Entered 2TCs--Home page method");
 		HomePageObjects home=PageFactory.initElements(driver, HomePageObjects.class);
 		
 		String emailvalue = properties.getProperty("emailp");
 		String pwdvalue = properties.getProperty("pwdp");
+		//System.out.println(emailvalue);
+		//System.out.println(pwdvalue);
 		String PageTitle=home.login_demo(emailvalue	, pwdvalue); //using COnstants */
 		
 		if (PageTitle.equalsIgnoreCase("My Account"))

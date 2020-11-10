@@ -15,6 +15,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -30,9 +31,8 @@ import resources.MobileMenuPageObjects;
 public class LoginTest extends CommonBrowser
 {
 	
-	
-	
-	
+	private static final TimeUnit SECONDS = null;
+
 	@BeforeTest
 	void verifyLogin() throws IOException
 	{
@@ -82,16 +82,22 @@ public class LoginTest extends CommonBrowser
 		}
 		System.out.println();
 		System.out.println("---------------------------------");
+		driver.close();
 	}
 	
 	//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	
+//	WebDriverWait wait = new WebDriverWait(driver,30);
+	//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='email']")));
+	
 	  @Test(priority=2) 
 	  void CompareCostofTwoProduc1t() throws IOException 
 	  {
-	  
+		  verifyLogin();
+		  verifyPropFile();
+		 // System.out.println("Entered Compare second testcase");
 		  HomePageMethod(); 
-		  System.out.println("Success Home page Method");
+		//  System.out.println("Success Home page Method");
 		  HomePageObjects home=PageFactory.initElements(driver, HomePageObjects.class); 
 		  home.dashboard();
 		  MobilePageMethod();
@@ -111,14 +117,16 @@ public class LoginTest extends CommonBrowser
 	  
 	  
 	  
-	  @Test(priority=3) void ThirdTest() throws IOException 
+	  @Test(priority=3) 
+	  void ThirdTest() throws IOException 
 	  {
 		  System.out.println("Third TEst"); 
 	  }
 	  
-	  @AfterTest public void closeDriver() 
+	  @AfterTest 
+	  public void closeDriver() 
 	  { 
-		  driver.close(); 
+		 driver.close(); 
 	  }
 	 
 	
