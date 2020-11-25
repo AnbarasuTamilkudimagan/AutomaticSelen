@@ -59,7 +59,7 @@ public class CommonBrowser
 	}
 	
 	//public String getScreenShotFailed(String testMethodName) 
-	public String takeScreenShotOnTestFailure(String testCaseName,WebDriver driver) throws IOException
+	public String getScreenshotPath(String testCaseName) throws IOException
 	{
 		File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 		//try {
@@ -85,20 +85,21 @@ public class CommonBrowser
 		//System.out.println(emailvalue);
 		//System.out.println(pwdvalue);
 		String PageTitle=home.login_demo(emailvalue	, pwdvalue); //using COnstants */
-		
-		if (PageTitle.equalsIgnoreCase("My Account"))
+		System.out.println(PageTitle);
+		if (PageTitle.equalsIgnoreCase("MyAccount"))
 		{
 			Assert.assertEquals(PageTitle, "My Account");
 			System.out.println("Success, & Verified Page title after login is --"+PageTitle);
 		}
 		else
 		{
-			Assert.assertEquals(PageTitle, "My Account");
 			System.out.println("FAILURE, & Page title after login is --"+PageTitle);
+			Assert.assertTrue(false);
+			
 		}
 	}
 	
-	public void MobilePageMethod()
+	public void MobilePageMethod() throws InterruptedException
 	{
 		MobileMenuPageObjects MobileMenuL=PageFactory.initElements(driver, MobileMenuPageObjects.class);
 		String MobilePageName=MobileMenuL.MobileMenu();

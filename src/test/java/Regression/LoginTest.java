@@ -17,7 +17,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -30,32 +32,35 @@ import resources.MobileMenuPageObjects;
 //@Listeners(CustomListener.class)
 public class LoginTest extends CommonBrowser
 {
-	
+
+
 	private static final TimeUnit SECONDS = null;
 
-	@BeforeTest
+	@BeforeMethod
 	void verifyLogin() throws IOException
 	{
 		driver =startBrowser();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);	
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 	
-	@BeforeTest
+	@BeforeMethod
 	void verifyPropFile() throws IOException
 	{
 		Properties properties = propfile();
 	}
 	
 	
-	@Test(priority=1)
-	void LoginTestcase() throws IOException
+	@Test(enabled =true, priority=1)
+	void LoginTestcaseTest() throws IOException, InterruptedException
 	{
 		
 		HomePageMethod();
 		HomePageObjects home=PageFactory.initElements(driver, HomePageObjects.class);
 		
 		home.dashboard();
-		
+		System.out.println("------------------");
+		System.out.println("FIRST TESTCASE");
+		System.out.println("------------------");
 		//Seocnd verification
 		MobilePageMethod();
 
@@ -82,24 +87,19 @@ public class LoginTest extends CommonBrowser
 		}
 		System.out.println();
 		System.out.println("---------------------------------");
-		driver.close();
+		//driver.close();
 	}
 	
-	//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-	
-//	WebDriverWait wait = new WebDriverWait(driver,30);
-	//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='email']")));
-	
-	  @Test(priority=2) 
-	  void CompareCostofTwoProduc1t() throws IOException 
+	  @Test(enabled =true, priority=2) 
+	  void CompareCostofTwoProductTest() throws IOException, InterruptedException 
 	  {
-		  verifyLogin();
-		  verifyPropFile();
-		 // System.out.println("Entered Compare second testcase");
+	
 		  HomePageMethod(); 
-		//  System.out.println("Success Home page Method");
 		  HomePageObjects home=PageFactory.initElements(driver, HomePageObjects.class); 
 		  home.dashboard();
+		  System.out.println("------------------");
+			System.out.println("SECOND TESTCASES");
+			System.out.println("------------------");
 		  MobilePageMethod();
 		  
 		  String ProductValueinMenuPage = ProductPageMethod(); 
@@ -117,13 +117,42 @@ public class LoginTest extends CommonBrowser
 	  
 	  
 	  
-	  @Test(priority=3) 
-	  void ThirdTest() throws IOException 
+	  @Test(enabled =true, priority=3) 
+	  void CanaddAvailableProductsqtyTest() throws IOException, InterruptedException 
 	  {
-		  System.out.println("Third TEst"); 
+	
+		  HomePageMethod(); 
+		  HomePageObjects home=PageFactory.initElements(driver, HomePageObjects.class); 
+		  home.dashboard();
+		  System.out.println("------------------");
+			System.out.println("THIRD TESTCASES");
+			System.out.println("------------------");
+		  MobilePageMethod();
+		  
+		  //Add to cart from Sony Xperia
+		  boolean AddtocartValue = AddToCart();
+		 
+		  
+		  //String ProductValueinMenuPage = ProductPageMethod(); 
+		  //String ProductValueinDetailPageVAlue = ProductDetailsPage(); 
+		  
+		//  if (ProductValueinMenuPage.contentEquals(ProductValueinDetailPageVAlue)) 
+			//  {
+				//  System.out.println("Value present in Details page is EQUAL"); 
+			  //} 
+		  //else 
+			//  {
+				//  System.out.println("Value present in Details page is NOT EQUAL"); 
+			  //} 
 	  }
 	  
-	  @AfterTest 
+	  
+	  private boolean AddToCart() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@AfterMethod 
 	  public void closeDriver() 
 	  { 
 		 driver.close(); 

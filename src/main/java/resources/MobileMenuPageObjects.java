@@ -10,6 +10,7 @@ import org.testng.Assert;
 
 public class MobileMenuPageObjects 
 {
+	private static final String Boolean = null;
 	private WebDriver driver;
 
 	public MobileMenuPageObjects (WebDriver driver)// Constructor and point to the local variable
@@ -23,11 +24,22 @@ public class MobileMenuPageObjects
 	@FindBy (xpath="//li[@class='item last']/div/h2/a") WebElement ProductName;
 	@FindBy (xpath="//span[@id='product-price-1']") WebElement ProductDetailPrice;
 	
-	public String MobileMenu()
+	@FindBy (xpath="(//button[@class='button btn-cart'])[1]") WebElement AddtocartButton;
+	
+	public String MobileMenu() throws InterruptedException
 	{
+		Thread.sleep(1000);
+		
 		MobileMenu.click();
 		String MobileMenuTitle = driver.getTitle();
 		return MobileMenuTitle;
+	}
+	
+	public boolean AddtoCartforProduct()
+	{
+		AddtocartButton.click();
+		System.out.println("Entered in AddtocartPRoduct method--Mobiel menu page objects");
+		return true;
 	}
 	
 	public String MobilePriceMethod()

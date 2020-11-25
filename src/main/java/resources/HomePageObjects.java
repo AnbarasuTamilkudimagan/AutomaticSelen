@@ -29,10 +29,8 @@ public class HomePageObjects
 	
 	public String login_demo(String ename, String pword)
 	{
-		//System.out.println("Entered 2TCs--Login Demo TCs");
 		
 		emailname.sendKeys(ename);
-		//System.out.println("Provided email");
 		password.sendKeys(pword);
 		submit.click();	
 		String Pagetitle=driver.getTitle();
